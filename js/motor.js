@@ -71,9 +71,15 @@ class MotorJuego {
   error() {
     this.fallos++;
 
-    if (this.puntos >= 20) {
-      this.puntos -= 20;
-    }
+    // Penalización progresiva:
+    // 1º fallo = +15 s
+    // 2º fallo = +30 s
+    // 3º fallo = +45 s
+    // ...
+
+    const penalizacion = this.fallos * 15000;
+
+    this.inicio -= penalizacion;
 
     UI.actualizarHUD();
   }

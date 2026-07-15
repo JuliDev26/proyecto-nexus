@@ -177,7 +177,12 @@ const app = {
 
       UI.log("Respuesta incorrecta.");
 
-      UI.mensaje("✖ Respuesta incorrecta", "error");
+      const segundos = juego.fallos * 15;
+
+      UI.mensaje(
+        `✖ Respuesta incorrecta<br><b>+${segundos} segundos</b>`,
+        "error",
+      );
 
       document.getElementById("respuesta").focus();
 
