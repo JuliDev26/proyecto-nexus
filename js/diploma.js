@@ -13,19 +13,21 @@ const Diploma = {
     // Colores
     //------------------------------------------------
 
-    const verde = [0, 120, 60];
-    const negro = [30, 30, 30];
+    const verde = [0, 140, 70];
     const gris = [110, 110, 110];
+    const negro = [35, 35, 35];
 
     //------------------------------------------------
-    // Marcos
+    // Marco exterior
     //------------------------------------------------
 
     pdf.setDrawColor(...verde);
     pdf.setLineWidth(2);
+
     pdf.rect(10, 10, 190, 277);
 
     pdf.setLineWidth(0.5);
+
     pdf.rect(15, 15, 180, 267);
 
     //------------------------------------------------
@@ -37,22 +39,23 @@ const Diploma = {
     pdf.setFont("helvetica", "bold");
     pdf.setFontSize(30);
 
-    pdf.text("PROYECTO NEXUS", 105, 30, {
+    pdf.text("PROYECTO NEXUS", 105, 28, {
       align: "center",
     });
 
     pdf.setFontSize(18);
 
-    pdf.text("CERTIFICADO OFICIAL DE SUPERACIÓN", 105, 42, {
+    pdf.text("CERTIFICADO OFICIAL", 105, 40, {
       align: "center",
     });
 
-    //------------------------------------------------
-    // Separador
-    //------------------------------------------------
+    pdf.setFontSize(12);
 
-    pdf.setDrawColor(...verde);
-    pdf.line(35, 50, 175, 50);
+    pdf.text("DE SUPERACION", 105, 48, {
+      align: "center",
+    });
+
+    pdf.line(35, 58, 175, 58);
 
     //------------------------------------------------
     // Texto
@@ -63,7 +66,7 @@ const Diploma = {
     pdf.setFont("helvetica", "normal");
     pdf.setFontSize(14);
 
-    pdf.text("Se certifica que", 105, 70, {
+    pdf.text("Se certifica que", 105, 76, {
       align: "center",
     });
 
@@ -74,48 +77,56 @@ const Diploma = {
     pdf.setFont("helvetica", "bold");
     pdf.setFontSize(26);
 
-    pdf.text(juego.nombre.toUpperCase(), 105, 90, {
+    pdf.text(juego.nombre.toUpperCase(), 105, 95, {
       align: "center",
     });
 
     //------------------------------------------------
-    // Texto principal
+    // Descripción
     //------------------------------------------------
 
     pdf.setFont("helvetica", "normal");
-    pdf.setFontSize(14);
+    pdf.setFontSize(13);
 
-    pdf.text("ha recuperado con éxito el control del sistema", 105, 110, {
+    pdf.text("ha restaurado satisfactoriamente el sistema NEXUS", 105, 114, {
       align: "center",
     });
 
-    pdf.text("NEXUS completando los 20 retos técnicos", 105, 118, {
+    pdf.text("superando todos los retos de la simulacion tecnica.", 105, 122, {
       align: "center",
     });
+
+    //------------------------------------------------
+    // Línea
+    //------------------------------------------------
+
+    pdf.setDrawColor(...verde);
+
+    pdf.line(35, 134, 175, 134);
 
     //------------------------------------------------
     // Datos
     //------------------------------------------------
 
-    pdf.setDrawColor(...verde);
+    pdf.setFontSize(14);
 
-    pdf.line(35, 132, 175, 132);
+    pdf.text(`Puntuacion : ${juego.puntos} puntos`, 40, 148);
 
-    pdf.setFontSize(15);
+    pdf.text(`Tiempo : ${juego.tiempo()}`, 40, 158);
 
-    pdf.text(`🏆 Puntuación : ${juego.puntos} puntos`, 40, 148);
+    pdf.text(`Errores : ${juego.fallos}`, 40, 168);
 
-    pdf.text(`⏱ Tiempo : ${juego.tiempo()}`, 40, 160);
+    pdf.text(`Pistas utilizadas : ${3 - juego.pistas}`, 40, 178);
 
-    pdf.text(`📅 Fecha : ${new Date().toLocaleDateString()}`, 40, 172);
+    pdf.text(`Fecha : ${new Date().toLocaleDateString()}`, 40, 188);
 
-    pdf.line(35, 182, 175, 182);
+    pdf.line(35, 198, 175, 198);
 
     //------------------------------------------------
-    // Nivel conseguido
+    // Nivel
     //------------------------------------------------
 
-    let nivel = "TÉCNICO";
+    let nivel = "TECNICO";
 
     if (juego.puntos >= 2500) nivel = "ANALISTA";
 
@@ -123,18 +134,20 @@ const Diploma = {
 
     if (juego.puntos >= 6500) nivel = "ELITE";
 
+    if (juego.retoActual >= RETOS.length) nivel = "ADMINISTRADOR OMEGA";
+
     pdf.setTextColor(...verde);
 
     pdf.setFont("helvetica", "bold");
-    pdf.setFontSize(18);
+    pdf.setFontSize(16);
 
-    pdf.text("NIVEL CONSEGUIDO", 105, 205, {
+    pdf.text("CLASIFICACION OBTENIDA", 105, 215, {
       align: "center",
     });
 
-    pdf.setFontSize(26);
+    pdf.setFontSize(24);
 
-    pdf.text(nivel, 105, 220, {
+    pdf.text(nivel, 105, 228, {
       align: "center",
     });
 
@@ -145,11 +158,11 @@ const Diploma = {
     pdf.setTextColor(...gris);
 
     pdf.setFont("helvetica", "normal");
-    pdf.setFontSize(12);
+    pdf.setFontSize(11);
 
-    pdf.line(125, 245, 180, 245);
+    pdf.line(120, 248, 182, 248);
 
-    pdf.text("Administrador del sistema NEXUS", 152, 252, {
+    pdf.text("Administrador del sistema NEXUS", 151, 255, {
       align: "center",
     });
 
@@ -157,15 +170,15 @@ const Diploma = {
     // Identificador
     //------------------------------------------------
 
-    const id =
+    const codigo =
       "NEXUS-" +
       new Date().getFullYear() +
       "-" +
-      Date.now().toString().slice(-6);
+      Math.random().toString(36).substring(2, 8).toUpperCase();
 
     pdf.setFontSize(10);
 
-    pdf.text(id, 105, 275, {
+    pdf.text(codigo, 105, 274, {
       align: "center",
     });
 

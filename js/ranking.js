@@ -4,36 +4,44 @@
 =====================================================*/
 
 const Ranking = {
-  CLAVE: "nexus_ranking",
+  //-----------------------------------------
+  // Obtener ranking
+  //-----------------------------------------
 
-  //---------------------------------------
+  async obtener() {
+    const { data, error } = await db
+      .from("ranking")
+      .select("*")
+      .order("puntos", { ascending: false })
+      .order("tiempo", { ascending: true });
 
-  obtener() {
-    const datos = localStorage.getItem(this.CLAVE);
+    if (error) {
+      console.error(error);
 
-    if (!datos) return [];
+      return [];
+    }
 
-    return JSON.parse(datos);
+    return data;
   },
 
-  //---------------------------------------
+  //-----------------------------------------
+  // Guardar partida
+  //-----------------------------------------
 
-  guardar(nombre, puntos, tiempo) {
-    const ranking = this.obtener();
+  async guardar(nombre, puntos, tiempo, errores, pistas) {
+    const { error } = await db.from("ranking").insert([
+      {
+        nombre,
+        puntos,
+        tiempo,
+        errores,
+        pistas,
+        fecha: new Date().toLocaleString(),
+      },
+    ]);
 
-    ranking.push({
-      nombre,
-      puntos,
-      tiempo,
-      fecha: new Date().toLocaleDateString(),
-    });
-
-    ranking.sort((a, b) => {
-      if (b.puntos !== a.puntos) return b.puntos - a.puntos;
-
-      return a.tiempo.localeCompare(b.tiempo);
-    });
-
-    localStorage.setItem(this.CLAVE, JSON.stringify(ranking.slice(0, 10)));
+    if (error) {
+      console.error(error);
+    }
   },
 };

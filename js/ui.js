@@ -36,8 +36,9 @@ const UI = {
   actualizarHUD() {
     document.getElementById("hudNombre").textContent = juego.nombre || "---";
 
-    document.getElementById("hudNivel").textContent =
-      `${Math.min(juego.retoActual + 1, RETOS.length)} / ${RETOS.length}`;
+    const nodoVisible = Math.min(juego.retoActual + 1, 20);
+
+    document.getElementById("hudNivel").textContent = `${nodoVisible} / 20`;
 
     document.getElementById("hudPuntos").textContent = juego.puntos;
 
@@ -210,11 +211,11 @@ ${
   reto.tipo === "imagen"
     ? `<p>
 
-<a href="img/nexus.png" target="_blank">
+<button href="img/nexus.png" target="_blank">
 
 Abrir imagen
 
-</a>
+</button>
 
 </p>`
     : ""
@@ -224,9 +225,21 @@ ${
   reto.tipo === "audio"
     ? `<audio controls>
 
-<source src="audio/nexus.mp3" type="audio/mpeg">
+<source src="audio/audio.mp3" type="audio/mpeg">
 
 </audio>`
+    : ""
+}
+
+${
+  reto.id === 21
+    ? `
+<button id="btnOmega">
+
+REINICIAR PROCESO Ω
+
+</button>
+`
     : ""
 }
 
@@ -252,6 +265,113 @@ ${
         app.comprobar();
       }
     });
+
+    if (reto.id === 21) {
+      document
+        .getElementById("btnOmega")
+        .addEventListener("click", () => app.omega());
+    }
+  },
+
+  //-------------------------------------------------
+  // Mensaje emergente
+  //-------------------------------------------------
+
+  mensaje(texto, tipo = "info") {
+    const anterior = document.getElementById("mensajeNexus");
+
+    if (anterior) {
+      anterior.remove();
+    }
+
+    const div = document.createElement("div");
+
+    div.id = "mensajeNexus";
+
+    div.className = `mensaje ${tipo}`;
+
+    div.innerHTML = texto;
+
+    document.body.appendChild(div);
+
+    setTimeout(() => {
+      div.classList.add("mostrar");
+    }, 10);
+
+    setTimeout(() => {
+      div.classList.remove("mostrar");
+
+      setTimeout(() => div.remove(), 300);
+    }, 2500);
+  },
+
+  //-------------------------------------------------
+  // Falsa pantalla final
+  //-------------------------------------------------
+
+  //-------------------------------------------------
+  // Pantalla de transición al Nodo Ω
+  //-------------------------------------------------
+
+  omega() {
+    this.mostrar(`
+
+<div class="tarjeta">
+
+<h2>SISTEMA NEXUS</h2>
+
+<pre id="omegaTerminal" class="codigo"></pre>
+
+</div>
+
+`);
+
+    const terminal = document.getElementById("omegaTerminal");
+
+    const lineas = [
+      "████████████████████████████████",
+      "",
+      "> RESTAURANDO SISTEMA...",
+      "",
+      "[OK] Cargando módulos...",
+      "[OK] Verificando integridad...",
+      "[OK] Restaurando archivos...",
+      "[OK] Eliminando procesos maliciosos...",
+      "",
+      "Acceso concedido.",
+      "Cerrando conexión...",
+      "",
+      "...",
+      "...",
+      "",
+      "ERROR",
+      "",
+      "Proceso oculto detectado.",
+      "",
+      "nexus.core sigue activo.",
+      "",
+      "Nivel de autorización insuficiente.",
+      "",
+      "Inicializando protocolo Ω...",
+      "",
+      "████████████████████████████████",
+    ];
+
+    let i = 0;
+
+    const escribir = () => {
+      if (i >= lineas.length) return;
+
+      terminal.textContent += lineas[i] + "\n";
+
+      terminal.scrollTop = terminal.scrollHeight;
+
+      i++;
+
+      setTimeout(escribir, 180);
+    };
+
+    escribir();
   },
 
   //-------------------------------------------------
@@ -346,8 +466,8 @@ JUGAR OTRA VEZ
   // Pantalla de ranking
   //-------------------------------------------------
 
-  ranking() {
-    const datos = Ranking.obtener();
+  async ranking() {
+    const datos = await Ranking.obtener();
 
     let html = `
 
@@ -355,7 +475,7 @@ JUGAR OTRA VEZ
 
 <h2>
 
-🏆 RANKING LOCAL
+🏆 RANKING NEXUS
 
 </h2>
 
@@ -372,43 +492,110 @@ Todavía no hay ninguna partida registrada.
 
 `;
     } else {
+      //---------------------------------
+      // PODIO
+      //---------------------------------
+
       html += `
+
+<div class="podio">
+
+`;
+
+      if (datos[0]) {
+        html += `
+
+<div class="puesto oro">
+
+<div class="medalla">🥇</div>
+
+<h3>${datos[0].nombre}</h3>
+
+<p>${datos[0].puntos} puntos</p>
+
+</div>
+
+`;
+      }
+
+      if (datos[1]) {
+        html += `
+
+<div class="puesto plata">
+
+<div class="medalla">🥈</div>
+
+<h3>${datos[1].nombre}</h3>
+
+<p>${datos[1].puntos} puntos</p>
+
+</div>
+
+`;
+      }
+
+      if (datos[2]) {
+        html += `
+
+<div class="puesto bronce">
+
+<div class="medalla">🥉</div>
+
+<h3>${datos[2].nombre}</h3>
+
+<p>${datos[2].puntos} puntos</p>
+
+</div>
+
+`;
+      }
+
+      html += `
+
+</div>
 
 <table class="ranking">
 
 <tr>
 
 <th>#</th>
-
 <th>Jugador</th>
-
 <th>Puntos</th>
-
 <th>Tiempo</th>
+<th>Errores</th>
+<th>Pistas</th>
 
 </tr>
 
 `;
 
-      datos.forEach((j, i) => {
+      datos.slice(0, 10).forEach((r, i) => {
         html += `
 
 <tr>
 
 <td>${i + 1}</td>
 
-<td>${j.nombre}</td>
+<td>${r.nombre}</td>
 
-<td>${j.puntos}</td>
+<td>${r.puntos}</td>
 
-<td>${j.tiempo}</td>
+<td>${r.tiempo}</td>
+
+<td>${r.errores}</td>
+
+<td>${r.pistas}</td>
 
 </tr>
 
 `;
       });
 
-      html += `</table>`;
+      html += `
+
+</table>
+
+`;
     }
 
     html += `

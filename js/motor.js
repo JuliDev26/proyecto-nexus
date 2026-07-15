@@ -95,7 +95,9 @@ class MotorJuego {
   //---------------------------------------
 
   porcentaje() {
-    return Math.floor((this.retoActual / RETOS.length) * 100);
+    const progreso = Math.min(this.retoActual, 20);
+
+    return Math.floor((progreso / 20) * 100);
   }
 
   //---------------------------------------

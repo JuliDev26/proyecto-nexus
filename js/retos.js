@@ -389,17 +389,21 @@ Busca en la hoja de estilos.`,
 
     tipo: "texto",
 
-    titulo: "Nodo Maestro",
+    titulo: "Protocolo de Restauración",
 
-    narrativa: `Solo queda un acceso antes del núcleo.`,
+    narrativa: `Has conseguido acceder al núcleo principal.
 
-    pregunta: "Escribe MASTER",
+El sistema solicita la clave maestra, pero la IA ha alterado el texto.
+
+Reconstruye correctamente la contraseña.`,
+
+    pregunta: `M4S73R`,
 
     respuesta: "MASTER",
 
-    pista: "Está delante de tus ojos.",
+    pista: "Los números sustituyen letras.",
 
-    puntos: 600,
+    puntos: 700,
   },
 
   /*=====================================================*/
@@ -407,18 +411,46 @@ Busca en la hoja de estilos.`,
   {
     id: 20,
 
-    tipo: "final",
+    tipo: "texto",
 
-    titulo: "NEXUS",
+    titulo: "Núcleo NEXUS",
 
-    narrativa: `Has conseguido recuperar el control del sistema.`,
+    narrativa: `La IA ha cifrado el último código en hexadecimal.
 
-    pregunta: "Introduce FINAL",
+Solo podrás restaurar el sistema si recuperas el texto original.`,
+
+    pregunta: `46 49 4E 41 4C`,
 
     respuesta: "FINAL",
 
-    pista: "Es la última prueba.",
+    pista: "Cada pareja representa un carácter ASCII en hexadecimal.",
 
     puntos: 1000,
+  },
+
+  {
+    id: 21,
+
+    tipo: "omega",
+
+    titulo: "Nodo Ω",
+
+    narrativa: `
+
+NEXUS ha dejado un último proceso oculto.
+
+La contraseña definitiva está dividida en tres fragmentos.
+
+Solo un administrador podrá reconstruirla.
+
+`,
+
+    pregunta: "Introduce la FLAG definitiva.",
+
+    respuesta: "FLAG{SYSTEM_RESTORED_2026}",
+
+    pista: "La respuesta no está en un único sitio.",
+
+    puntos: 2500,
   },
 ];

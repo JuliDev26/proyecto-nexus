@@ -22,8 +22,7 @@ const app = {
     const nombre = document.getElementById("nombre").value.trim();
 
     if (nombre === "") {
-      alert("Introduce tu nombre.");
-
+      UI.mensaje("✖ Introduce tu nombre", "error");
       return;
     }
 
@@ -38,7 +37,7 @@ const app = {
   // Muestra el reto actual
   //-------------------------------------------------
 
-  cargarReto() {
+  async cargarReto() {
     if (juego.retoActual >= RETOS.length) {
       Ranking.guardar(
         juego.nombre,
@@ -46,6 +45,10 @@ const app = {
         juego.puntos,
 
         juego.tiempo(),
+
+        juego.fallos,
+
+        3 - juego.pistas,
       );
 
       UI.final();
@@ -83,11 +86,47 @@ const app = {
       UI.log("Imagen disponible en img/nexus.png");
     }
 
+    if (reto.id === 21) {
+      console.clear();
+
+      console.log(
+        "%cOMEGA_2 = RESTORED_",
+        "color:#00ff88;font-size:22px;font-weight:bold",
+      );
+
+      fetch("data/omega.json")
+        .then((r) => r.json())
+        .then(console.log);
+    }
+
     UI.actualizarHUD();
 
     UI.log(`Nodo ${reto.id} cargado.`);
 
     UI.reto(reto);
+  },
+
+  //-------------------------------------------------
+  // Reiniciar proceso Ω
+  //-------------------------------------------------
+
+  omega() {
+    console.clear();
+
+    console.log(
+      "%cOMEGA_2 = RESTORED_",
+      "color:#00ff88;font-size:22px;font-weight:bold",
+    );
+
+    fetch("data/omega.json")
+      .then((r) => r.json())
+      .then((datos) => {
+        console.log(datos);
+
+        UI.log("Proceso Ω reiniciado.");
+
+        UI.mensaje("Proceso Ω reiniciado", "info");
+      });
   },
 
   //-------------------------------------------------
@@ -100,9 +139,31 @@ const app = {
     if (juego.comprobar(respuesta)) {
       UI.log("Respuesta correcta.");
 
+      UI.mensaje("✔ Nodo completado", "ok");
+
       juego.acierto();
 
+      // Acaba de superar el nodo 20
+      if (juego.retoActual === 20) {
+        UI.omega();
+
+        setTimeout(() => {
+          app.cargarReto();
+        }, 7000);
+
+        return;
+      }
+
+      // Ha terminado también el Nodo Ω
       if (juego.retoActual >= RETOS.length) {
+        Ranking.guardar(
+          juego.nombre,
+          juego.puntos,
+          juego.tiempo(),
+          juego.fallos,
+          3 - juego.pistas,
+        );
+
         UI.final();
 
         return;
@@ -116,7 +177,11 @@ const app = {
 
       UI.log("Respuesta incorrecta.");
 
-      alert("❌ Respuesta incorrecta.");
+      UI.mensaje("✖ Respuesta incorrecta", "error");
+
+      document.getElementById("respuesta").focus();
+
+      document.getElementById("respuesta").select();
     }
   },
 
@@ -142,7 +207,7 @@ const app = {
     const pista = juego.usarPista();
 
     if (pista == null) {
-      alert("No quedan pistas.");
+      UI.mensaje("No quedan pistas disponibles.", "error");
 
       UI.log("Sin pistas disponibles.");
 
@@ -151,7 +216,7 @@ const app = {
 
     UI.log("Pista utilizada.");
 
-    alert("💡 " + pista);
+    UI.mensaje("<b>PISTA</b><br><br>" + pista, "info");
   },
 };
 
