@@ -1,0 +1,407 @@
+/* =====================================================
+   PROYECTO NEXUS v1.0
+===================================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #050505;
+  --panel: #101010;
+  --panel2: #181818;
+
+  --verde: #00ff66;
+  --verde2: #7dffb3;
+
+  --texto: #d8ffe7;
+
+  --rojo: #ff5555;
+  --amarillo: #ffd95c;
+
+  --borde: rgba(0, 255, 120, 0.25);
+}
+
+body {
+  background: var(--bg);
+
+  color: var(--texto);
+
+  font-family: Consolas, "Courier New", monospace;
+
+  min-height: 100vh;
+
+  overflow-x: hidden;
+}
+
+/* =========================================
+FONDO
+========================================= */
+
+body::before {
+  content: "";
+
+  position: fixed;
+
+  inset: 0;
+
+  background:
+    linear-gradient(rgba(0, 255, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 0, 0.04) 1px, transparent 1px);
+
+  background-size: 40px 40px;
+
+  z-index: -2;
+}
+
+body::after {
+  content: "";
+
+  position: fixed;
+
+  inset: 0;
+
+  background: radial-gradient(circle, transparent 25%, rgba(0, 0, 0, 0.85));
+
+  z-index: -1;
+}
+
+/* ========================================= */
+
+#app {
+  width: min(1300px, 94%);
+
+  margin: auto;
+
+  padding: 25px;
+}
+
+/* =========================================
+HEADER
+========================================= */
+
+#header {
+  text-align: center;
+
+  margin-bottom: 30px;
+}
+
+#header h1 {
+  color: var(--verde);
+
+  font-size: 3rem;
+
+  letter-spacing: 8px;
+
+  text-shadow:
+    0 0 8px var(--verde),
+    0 0 30px var(--verde);
+}
+
+#header h1::after {
+  content: "_";
+
+  animation: cursor 0.9s infinite;
+}
+
+#header p {
+  margin-top: 10px;
+
+  color: var(--verde2);
+}
+
+@keyframes cursor {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* =========================================
+HUD
+========================================= */
+
+#hud {
+  display: grid;
+
+  grid-template-columns: repeat(5, 1fr);
+
+  gap: 15px;
+
+  margin-bottom: 25px;
+}
+
+.panel {
+  background: var(--panel);
+
+  border: 1px solid var(--borde);
+
+  padding: 15px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  min-height: 80px;
+
+  box-shadow: 0 0 15px rgba(0, 255, 80, 0.08);
+}
+
+.tituloPanel {
+  font-size: 0.75rem;
+
+  color: var(--verde2);
+
+  margin-bottom: 10px;
+}
+
+.panel span:last-child {
+  color: var(--verde);
+
+  font-size: 1.25rem;
+
+  font-weight: bold;
+}
+
+/* =========================================
+BARRA
+========================================= */
+
+#barraProgreso {
+  height: 18px;
+
+  border: 1px solid var(--verde);
+
+  margin-bottom: 30px;
+}
+
+#progreso {
+  width: 0%;
+
+  height: 100%;
+
+  background: linear-gradient(90deg, #00ff66, #66ffaa);
+
+  transition: 0.5s;
+}
+
+/* =========================================
+PANTALLA
+========================================= */
+
+#pantalla {
+  background: rgba(15, 15, 15, 0.88);
+
+  border: 1px solid var(--borde);
+
+  padding: 35px;
+
+  min-height: 550px;
+
+  box-shadow: 0 0 25px rgba(0, 255, 0, 0.08);
+}
+
+/* ========================================= */
+
+h2 {
+  color: var(--verde);
+
+  margin-bottom: 20px;
+}
+
+h3 {
+  color: var(--verde2);
+
+  margin-bottom: 20px;
+}
+
+p {
+  line-height: 1.8;
+
+  margin-bottom: 15px;
+}
+
+/* =========================================
+INPUT
+========================================= */
+
+input {
+  width: 100%;
+
+  padding: 16px;
+
+  margin-top: 15px;
+
+  background: black;
+
+  color: var(--verde);
+
+  border: 1px solid var(--verde);
+
+  font-size: 18px;
+
+  outline: none;
+}
+
+input:focus {
+  box-shadow: 0 0 15px rgba(0, 255, 120, 0.4);
+}
+
+/* =========================================
+BOTONES
+========================================= */
+
+.botones {
+  display: flex;
+
+  gap: 15px;
+
+  margin-top: 25px;
+}
+
+button {
+  flex: 1;
+
+  background: var(--verde);
+
+  color: black;
+
+  border: none;
+
+  padding: 16px;
+
+  cursor: pointer;
+
+  font-size: 17px;
+
+  font-weight: bold;
+
+  transition: 0.25s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+
+  box-shadow: 0 0 20px rgba(0, 255, 120, 0.45);
+}
+
+/* =========================================
+CAJAS
+========================================= */
+
+.tarjeta {
+  background: var(--panel2);
+
+  border-left: 4px solid var(--verde);
+
+  padding: 20px;
+
+  margin: 25px 0;
+}
+
+.codigo {
+  background: black;
+
+  border: 1px solid var(--borde);
+
+  padding: 18px;
+
+  font-size: 20px;
+
+  color: var(--verde);
+
+  margin: 25px 0;
+
+  white-space: pre-wrap;
+}
+
+/* =========================================
+LOG
+========================================= */
+
+#log {
+  margin-top: 30px;
+
+  border: 1px solid var(--borde);
+
+  background: #111;
+}
+
+.logTitulo {
+  background: #161616;
+
+  color: var(--verde);
+
+  padding: 12px;
+
+  border-bottom: 1px solid var(--borde);
+}
+
+#logMensajes {
+  padding: 18px;
+
+  min-height: 80px;
+
+  color: var(--verde2);
+
+  line-height: 1.8;
+}
+
+/* =========================================
+RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+  #hud {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 650px) {
+  #hud {
+    grid-template-columns: 1fr;
+  }
+
+  .botones {
+    flex-direction: column;
+  }
+}
+
+/*==================================================
+
+NODO 7
+
+FLAG{STYLE}
+
+==================================================*/
+
+.ranking {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  margin-top: 20px;
+}
+
+.ranking th {
+  border-bottom: 2px solid #00ff88;
+
+  padding: 10px;
+}
+
+.ranking td {
+  padding: 8px;
+
+  text-align: center;
+
+  border-bottom: 1px solid #333;
+}
+
+.ranking tr:hover {
+  background: #102010;
+}

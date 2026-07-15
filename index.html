@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Proyecto NEXUS</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+
+</head>
+
+<body>
+
+    <div id="app">
+
+        <!-- ==========================================
+             CABECERA
+        =========================================== -->
+
+        <header id="header">
+
+            <h1>PROYECTO NEXUS</h1>
+
+            <p>
+                Escape Room Técnico · Versión 1.0
+            </p>
+
+        </header>
+
+        <!-- ==========================================
+             HUD
+        =========================================== -->
+
+        <section id="hud">
+
+            <div class="panel">
+                <span class="tituloPanel">USUARIO</span>
+                <span id="hudNombre">---</span>
+            </div>
+
+            <div class="panel">
+                <span class="tituloPanel">NODO</span>
+                <span id="hudNivel">0 / 20</span>
+            </div>
+
+            <div class="panel">
+                <span class="tituloPanel">PUNTOS</span>
+                <span id="hudPuntos">0</span>
+            </div>
+
+            <div class="panel">
+                <span class="tituloPanel">PISTAS</span>
+                <span id="hudPistas">3</span>
+            </div>
+
+            <div class="panel">
+                <span class="tituloPanel">TIEMPO</span>
+                <span id="hudTiempo">00:00</span>
+            </div>
+
+        </section>
+
+        <!-- ==========================================
+             PROGRESO
+        =========================================== -->
+
+        <section id="contenedorProgreso">
+
+            <div id="barraProgreso">
+
+                <div id="progreso"></div>
+
+            </div>
+
+        </section>
+
+        <!-- ==========================================
+             ZONA DEL JUEGO
+        =========================================== -->
+
+        <main id="pantalla">
+
+            <!--
+                Todo el contenido del juego
+                será generado por JavaScript.
+            -->
+
+        </main>
+
+        <!-- ==========================================
+             LOG
+        =========================================== -->
+
+        <footer id="log">
+
+            <div class="logTitulo">
+
+                NEXUS SYSTEM LOG
+
+            </div>
+
+            <div id="logMensajes">
+
+                Sistema preparado.
+
+            </div>
+
+        </footer>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="js/retos.js"></script>
+    <script src="js/motor.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/ranking.js"></script>
+    <script src="js/diploma.js"></script>
+    <script src="js/app.js"></script>
+
+    <!--
+==================================================
+NODO 6
+
+FLAG{SOURCE}
+
+Solo quien inspeccione el código fuente encontrará
+esta contraseña.
+
+==================================================
+-->
+
+</body>
+
+</html>
