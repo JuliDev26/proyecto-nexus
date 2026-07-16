@@ -58,7 +58,7 @@ No se pudieron cargar los retos desde el servidor.
 
     UI.inicio();
 
-    UI.log(`Sistema preparado. ${RETOS.length} retos cargados.`);
+    UI.log(`Sistema preparado.`);
   },
 
   //-------------------------------------------------
