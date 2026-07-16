@@ -2,35 +2,63 @@
     PROYECTO NEXUS
     app.js
 =====================================================*/
-
+let RETOS = [];
 const app = {
+  //------------------
+  //
+  // -------------------------------
+  // Arranque de la aplicación
+  //-------------------------------------------------
+
   //-------------------------------------------------
   // Arranque de la aplicación
   //-------------------------------------------------
 
-  iniciarAplicacion() {
-    UI.actualizarHUD();
-    UI.inicio();
-    UI.log("Sistema preparado.");
-  },
+  async iniciarAplicacion() {
+    const { data, error } = await db
+      .from("retos")
+      .select(
+        `
+id,
+tipo,
+titulo,
+narrativa,
+pregunta,
+pista,
+puntos
+`,
+      )
+      .order("id");
 
-  //-------------------------------------------------
-  // Comienza la partida
-  //-------------------------------------------------
+    if (error) {
+      console.error(error);
 
-  iniciar() {
-    const nombre = document.getElementById("nombre").value.trim();
+      UI.mostrar(`
 
-    if (nombre === "") {
-      UI.mensaje("✖ Introduce tu nombre", "error");
+<div class="tarjeta">
+
+<h2>Error</h2>
+
+<p>
+
+No se pudieron cargar los retos desde el servidor.
+
+</p>
+
+</div>
+
+`);
+
       return;
     }
 
-    juego.comenzar(nombre);
+    RETOS = data;
 
-    UI.log(`Bienvenido ${nombre}.`);
+    UI.actualizarHUD();
 
-    UI.boot();
+    UI.inicio();
+
+    UI.log(`Sistema preparado. ${RETOS.length} retos cargados.`);
   },
 
   //-------------------------------------------------
@@ -133,10 +161,16 @@ const app = {
   // Comprueba la respuesta
   //-------------------------------------------------
 
-  comprobar() {
+  //-------------------------------------------------
+  // Comprueba la respuesta
+  //-------------------------------------------------
+
+  async comprobar() {
     const respuesta = document.getElementById("respuesta").value;
 
-    if (juego.comprobar(respuesta)) {
+    const correcta = await comprobarRespuesta(juego.reto().id, respuesta);
+
+    if (correcta) {
       UI.log("Respuesta correcta.");
 
       UI.mensaje("✔ Nodo completado", "ok");
@@ -156,7 +190,7 @@ const app = {
 
       // Ha terminado también el Nodo Ω
       if (juego.retoActual >= RETOS.length) {
-        Ranking.guardar(
+        await Ranking.guardar(
           juego.nombre,
           juego.puntos,
           juego.tiempo(),
@@ -185,9 +219,27 @@ const app = {
       );
 
       document.getElementById("respuesta").focus();
-
       document.getElementById("respuesta").select();
     }
+  },
+
+  //-------------------------------------------------
+  // Comienza la partida
+  //-------------------------------------------------
+
+  iniciar() {
+    const nombre = document.getElementById("nombre").value.trim();
+
+    if (nombre === "") {
+      UI.mensaje("✖ Introduce tu nombre", "error");
+      return;
+    }
+
+    juego.comenzar(nombre);
+
+    UI.log(`Bienvenido ${nombre}.`);
+
+    UI.boot();
   },
 
   //-------------------------------------------------
